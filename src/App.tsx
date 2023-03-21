@@ -1,25 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Navigation from './components/navigation'
+import Home from './pages/Home'
+
+var pages : { [page: string] : React.ReactElement } = {}
+pages["/"] = Home()
+
+function getPage() {
+  if (window.location.pathname in pages){
+    return pages[window.location.pathname]
+  }
+  else {
+    return(
+      <text>Page not found</text>
+    );
+  }
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+    <Navigation/>
+    {getPage()}
+    </>
   );
 }
 
