@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import "./2048Style"
 import {themed_style, themed_text} from "./2048Style"
-import { BOARD_STYLE, ROW_STYLE } from "./2048Style";
+import { BOARD_STYLE, ROW_STYLE, GAME_STYLE,
+  STATS_STYLE } from "./2048Style";
 import { SwipeEventData, useSwipeable } from "react-swipeable";
 import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
-
+import Button from 'react-bootstrap/Button';
+import Badge from 'react-bootstrap/Badge';
 
 enum DIRECTION {
   Up = "Up",
@@ -40,8 +42,9 @@ class Board {
   board: Tile[][];
   width : number;
   height : number;
-  starting_vals : number[];
-  constructor(board? : Tile[][]) {
+  starting_vals : [number, number];
+  score : number;
+  constructor(board? : Tile[][], score?: number) {
     this.height = 4
     this.width = 4
     if(board){
@@ -57,8 +60,13 @@ class Board {
         this.board[i] = row;
       }
     }
-
     this.starting_vals = [2, 4]
+    if(score){
+      this.score = score
+    }
+    else{
+      this.score = 0
+    }
   }
 
   outOfBounds(x : number, y : number) : boolean {
@@ -84,9 +92,7 @@ class Board {
       for (var col = 0; col < this.width; col++){
         Object.keys(DIRECTION).forEach((direction, index) => {
           var newCoords = this.directionOffset(direction as DIRECTION, col, row);
-          //console.log("Can move", col, row, newCoords, direction)
           if (this.canMove(col, row, newCoords[0], newCoords[1])) {
-            //console.log(false)
             ret = false
           }
         })
@@ -114,14 +120,14 @@ class Board {
       y = Math.floor(Math.random()*this.height)
     } while (this.getTile(x, y).val !== 0) 
     
-    var val = this.starting_vals[Math.floor(Math.random()*(this.starting_vals.length))]
+    var val = Math.random() >= .9 ? this.starting_vals[1] : this.starting_vals[0]
     this.setTile(x, y, new Tile(val))
 
     if(!this.boardEmpty() && this.boardFull()) {
       alert("Game Over!")
       return new Board().newTile();
     }
-    return new Board(this.board)
+    return new Board(this.board, this.score)
   }
 
   handleKeypress(event : React.KeyboardEvent) : Board {
@@ -162,6 +168,7 @@ class Board {
         this.setTile(newCoords[0], newCoords[1], mergedTile)
         this.setTile(x, y, new Tile(0))
         mergedTile.merged = true
+        this.score += mergedTile.val
       }
       else {
         return false
@@ -249,6 +256,30 @@ class Board {
     return (distX === 1) !== (distY === 1)
   }
 
+  storeState() : [number[][], number] {
+    var vals = []
+    for(var i = 0; i < this.height; i++ ){
+      var boardRow = []
+      for(var j = 0; j < this.width; j++){
+        boardRow.push(this.getTile(j, i).val)
+      }
+      vals.push(boardRow)
+    }
+    return [vals, this.score]
+  }
+
+  restoreState(state : number[][], score : number){
+    var boardElements : Tile[][] = []
+    for(var i = 0; i < this.height; i++ ){
+      var boardRow = []
+      for(var j = 0; j < this.width; j++){
+        boardRow.push(new Tile(state[i][j]))
+      }
+      boardElements.push(boardRow)
+    }
+    return new Board(boardElements, score)
+  }
+
   render(theme : THEME) { 
     var boardElements = []
     for(var i = 0; i < this.height; i++ ){
@@ -278,8 +309,30 @@ const GameWindow = () => {
   const [theme, setTheme] = useState(THEME.Classic)
 
   useEffect(() => {
-    setBoard(board.newTile());
+    const b = localStorage.getItem('board')
+    const s = localStorage.getItem('score')
+    const t = localStorage.getItem('theme')
+    if (b && s && t) {
+      const state : number[][] = JSON.parse(b)
+      const score : number = JSON.parse(s)
+      const state_theme : THEME = JSON.parse(t)
+      setBoard(board.restoreState(state, score))
+      setTheme(state_theme)
+    }
+    else{
+      setBoard(board.newTile());
+    }
   }, []);
+
+  useEffect(() => {
+    var state = board.storeState()
+    var b = state[0]
+    var s = state[1]
+    console.log(b, s)
+    localStorage.setItem('board', JSON.stringify(b));
+    localStorage.setItem('score', JSON.stringify(s));
+    localStorage.setItem('theme', JSON.stringify(theme));
+  }, [board, theme])
 
   const refPassthrough = (el : HTMLElement | null) => {
     handlers.ref(el);
@@ -293,23 +346,38 @@ const GameWindow = () => {
   });
 
   return(
-    <div className="GameWindow"
-      onKeyDown={(event) => setBoard(board.handleKeypress(event))}
-      tabIndex={0}
-      style={{outline: 'none'}}
-      {... handlers}
-      ref={refPassthrough}
-    >
-      <Dropdown>
-        <DropdownButton 
-          title="Theme"
-          onSelect={(e) => setTheme(e == null ? THEME.Classic : e as THEME)}>
-          <Dropdown.Item eventKey="Classic">Classic</Dropdown.Item>
-          <Dropdown.Item eventKey="Amongus">Sussy</Dropdown.Item>
-        </DropdownButton>
-      </Dropdown>
-      <RenderBoard b={board} theme={theme}/>
-    </div>
+    <body style={{overflow: 'hidden', overscrollBehavior: 'contain',
+     display: "flex", alignItems: "center", justifyContent: "center",
+     height: "100%"}}>
+
+      <div className="GameWindow"
+          onKeyDown={(event) => setBoard(board.handleKeypress(event))}
+          tabIndex={0}
+          {... handlers}
+          ref={refPassthrough}
+          style={GAME_STYLE}
+      >
+        <div style={STATS_STYLE}>
+          <Button onClick={() => {setBoard(new Board().newTile())}}>
+            New Game
+          </Button>
+
+          <text className="text-center" style={{fontSize: '18px', fontWeight: 'normal', width: '110px'}}>Score: {board.score}</text>
+
+          <Dropdown>
+            <DropdownButton 
+              title="Theme"
+              onSelect={(e) => setTheme(e == null ? THEME.Classic : e as THEME)}>
+              <Dropdown.Item eventKey="Classic">Classic</Dropdown.Item>
+              <Dropdown.Item eventKey="Amongus">Sussy</Dropdown.Item>
+            </DropdownButton>
+          </Dropdown>
+        </div>
+
+        <RenderBoard b={board} theme={theme}/>
+
+      </div>
+    </body>
   );
 }
 

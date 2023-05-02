@@ -9,6 +9,7 @@ pages["/"] = () => <Home/>
 pages["/projects"] = () => <GameWindow/>
 
 function getPage() {
+  console.log(window.location.pathname, process.env.PUBLIC_URL)
   if (window.location.pathname in pages){
     return pages[window.location.pathname]()
   }
@@ -21,10 +22,12 @@ function getPage() {
 
 function App() {
   return (
-    <div className='App'>
-      <Navigation/>
-      {getPage()}
-    </div>
+    <body style={{overflow: 'hidden', overscrollBehavior: 'contain', touchAction: 'none'}}>
+      <div className='App'>
+        <Navigation/>
+        {getPage()}
+      </div>
+    </body>
   );
 }
 

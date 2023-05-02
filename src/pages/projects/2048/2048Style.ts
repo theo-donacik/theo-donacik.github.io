@@ -33,7 +33,7 @@ export function themed_style(theme : THEME, val : number) : any {
     t.alignItems = 'flex-start'
     t.textAlignVertical = 'bottom'
     t.paddingTop = '40px'
-
+    t.margin = '3px'
 
     t.backgroundImage = 'url("/img/' + images[val] + '")'
   }  
@@ -84,5 +84,16 @@ export const ROW_STYLE: any = {
   display: 'flex',
   flexDirection: 'row',
   alignItems: 'center',
+}
+
+export const GAME_STYLE: any = {
+  outline: 'none', overscrollBehaviorY: 'contain',
+  overflow: 'hidden', overflowY: 'hidden', overscrollBehavior: 'contain',
+  display: 'flex', flexDirection: 'column'
+}
+
+export const STATS_STYLE: any = {
+  display: "flex", flexDirection: 'row', padding: '5px', 
+  alignItems: 'center', justifyContent: 'space-between',
 }
 
