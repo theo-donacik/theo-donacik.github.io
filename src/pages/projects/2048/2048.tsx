@@ -1,4 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import "./2048Style"
+import {themed_style, themed_text} from "./2048Style"
+import { BOARD_STYLE, ROW_STYLE } from "./2048Style";
+import { SwipeEventData, useSwipeable } from "react-swipeable";
+import Dropdown from 'react-bootstrap/Dropdown';
+import DropdownButton from 'react-bootstrap/DropdownButton';
+
 
 enum DIRECTION {
   Up = "Up",
@@ -7,24 +14,50 @@ enum DIRECTION {
   Right = "Right"
 }
 
+export enum THEME {
+  Classic = "Classic",
+  Amongus = "Amongus",
+}
+
+class Tile {
+  val: number;
+  merged: boolean;
+  constructor(val : number){
+    this.val = val
+    this.merged = false;
+  }
+
+  render(theme: THEME){
+    return(
+      <div className="square border border-dark" style={themed_style(theme, this.val)}>
+        <p style={themed_text(theme)}>{this.val === 0 ? "" : this.val}</p>
+      </div>
+    )
+  }
+}
+
 class Board {
-  board: number[][];
+  board: Tile[][];
   width : number;
   height : number;
   starting_vals : number[];
-
-  constructor(board? : number[][]) {
+  constructor(board? : Tile[][]) {
+    this.height = 4
+    this.width = 4
     if(board){
       this.board = board
     }
     else {
-      this.board = [[0,0,0,0], 
-                    [0,0,0,0],
-                    [0,0,0,0],
-                    [0,0,0,0]]
+      this.board = [[]]
+      for(var i = 0; i < this.height; i++ ){
+        var row= [];
+        for(var j = 0; j < this.width; j++){
+          row[j] = new Tile(0);
+        }
+        this.board[i] = row;
+      }
     }
-    this.height = this.board.length
-    this.width = this.board[0].length
+
     this.starting_vals = [2, 4]
   }
 
@@ -32,16 +65,16 @@ class Board {
     return x >= this.width || y >= this.height || x < 0 || y < 0
   }
 
-  setTile(x : number, y : number, value : number) : void {
+  setTile(x : number, y : number, tile : Tile) : void {
     //alert("Set tile at " + x.toString() + " " + y.toString() + " to value " + value.toString())
     if(this.outOfBounds(x, y)){
       alert("Requested out of bounds move");
       return
     }
-    this.board[y][x] = value
+    this.board[y][x] = tile;
   }
 
-  getTile(x : number, y : number) : number {
+  getTile(x : number, y : number) : Tile {
     return this.board[y][x]
   }
 
@@ -51,9 +84,9 @@ class Board {
       for (var col = 0; col < this.width; col++){
         Object.keys(DIRECTION).forEach((direction, index) => {
           var newCoords = this.directionOffset(direction as DIRECTION, col, row);
-          console.log("Can move", col, row, newCoords, direction)
+          //console.log("Can move", col, row, newCoords, direction)
           if (this.canMove(col, row, newCoords[0], newCoords[1])) {
-            console.log(false)
+            //console.log(false)
             ret = false
           }
         })
@@ -65,7 +98,7 @@ class Board {
   boardEmpty() : boolean {
     for (var row = 0; row < this.height; row++){
       for (var col = 0; col < this.width; col++){
-        if(this.getTile(col, row) !== 0) {
+        if(this.getTile(col, row).val !== 0) {
           return false
         }
       }
@@ -79,10 +112,10 @@ class Board {
     do {
       x = Math.floor(Math.random()*this.width)
       y = Math.floor(Math.random()*this.height)
-    } while (this.getTile(x, y) !== 0) 
+    } while (this.getTile(x, y).val !== 0) 
     
     var val = this.starting_vals[Math.floor(Math.random()*(this.starting_vals.length))]
-    this.setTile(x, y, val)
+    this.setTile(x, y, new Tile(val))
 
     if(!this.boardEmpty() && this.boardFull()) {
       alert("Game Over!")
@@ -91,8 +124,7 @@ class Board {
     return new Board(this.board)
   }
 
-  handleInput(event : React.KeyboardEvent) : Board {
-    //alert("got input")
+  handleKeypress(event : React.KeyboardEvent) : Board {
     const keyToDir : {[key : string]: DIRECTION} = {
       "ArrowUp": DIRECTION.Up, 
       "ArrowDown": DIRECTION.Down, 
@@ -100,16 +132,40 @@ class Board {
       "ArrowRight": DIRECTION.Right
     }
 
-    return this.moveBoard(keyToDir[event.key])
+    var key = keyToDir[event.key]
+    return key in DIRECTION ? this.moveBoard(key) : this
+  }
+
+  handleSwipe(event : SwipeEventData) {
+    const swipeToDir : {[key : string]: DIRECTION} = {
+      "Up": DIRECTION.Up, 
+      "Down": DIRECTION.Down, 
+      "Left": DIRECTION.Left,
+      "Right": DIRECTION.Right
+    }
+
+    var key = swipeToDir[event.dir]
+    return key in DIRECTION ? this.moveBoard(key) : this
   }
 
   moveTile(direction : DIRECTION, x : number, y : number) : boolean {
     var newCoords = this.directionOffset(direction, x, y);
     if(this.canMove(x, y, newCoords[0], newCoords[1])){
-      //alert("new coords " + newCoords.toString())
-      this.setTile(newCoords[0], newCoords[1], 
-                   this.getTile(x, y) + this.getTile(newCoords[0],newCoords[1]))
-      this.setTile(x , y, 0)
+      var t1 : Tile = this.getTile(x, y)
+      var t2 : Tile = this.getTile(newCoords[0],newCoords[1]);
+      if(t2.val === 0){
+        this.setTile(newCoords[0], newCoords[1], t1)
+        this.setTile(x, y, new Tile(0))
+      }
+      else if (!t1.merged && !t2.merged){
+        var mergedTile : Tile = new Tile(t1.val + t2.val)
+        this.setTile(newCoords[0], newCoords[1], mergedTile)
+        this.setTile(x, y, new Tile(0))
+        mergedTile.merged = true
+      }
+      else {
+        return false
+      }
       return true
     }
     return false
@@ -138,14 +194,23 @@ class Board {
       noneMoved = false
       for(var col = moves[direction][0][0]; moves[direction][0][1](col); col = moves[direction][0][2](col)){
         for(var row = moves[direction][1][0]; moves[direction][1][1](row); row = moves[direction][1][2](row)){
-          console.log(col, row)
+          //console.log(col, row)
           var move = this.moveTile(direction, col, row)
           noneMoved = noneMoved || move
           changed = changed || move
         }
       }
     }
+    this.resetMerged();
     return (changed ? this.newTile() : this)
+  }
+
+  resetMerged() : void{
+    for(var i = 0; i < this.height; i++ ){
+      for(var j = 0; j < this.width; j++){
+        this.getTile(j, i).merged = false
+      }
+    }
   }
 
   directionOffset(direction: DIRECTION, x : number, y : number) : [number, number]{
@@ -173,9 +238,9 @@ class Board {
     //alert(this.outOfBounds(x, y).toString() + " : " + this.outOfBounds(newX, newY).toString())
     return this.oneAway(x, y, newX, newY) &&
            !this.outOfBounds(newX, newY) &&
-           this.getTile(x, y) !== 0 &&
-           (this.getTile(newX, newY) === 0 || 
-           this.getTile(newX, newY) === this.getTile(x, y))
+           this.getTile(x, y).val !== 0 &&
+           (this.getTile(newX, newY).val === 0 || 
+           this.getTile(newX, newY).val === this.getTile(x, y).val)
   }
 
   oneAway(x : number, y : number, newX : number, newY : number) : boolean {
@@ -184,30 +249,66 @@ class Board {
     return (distX === 1) !== (distY === 1)
   }
 
-  render(){
-    var boardStr : string = ""
-    for (var row in this.board) {
-      boardStr += this.board[row].toString() + "\n"
+  render(theme : THEME) { 
+    var boardElements = []
+    for(var i = 0; i < this.height; i++ ){
+      var boardRow = []
+      for(var j = 0; j < this.width; j++){
+        boardRow.push(this.getTile(j, i).render(theme))
+      }
+      boardElements.push(boardRow)
     } 
     return(
-      <text className="body-text">{boardStr}</text>
+      <div style={BOARD_STYLE}>{boardElements.map((row) => (
+        <div style={ROW_STYLE}>
+          {row}
+          <br />
+        </div>))}
+      </div>
     )
   }
 }
 
-const RenderBoard = ({b}: {b: Board}) => {
-  return b.render()
+const RenderBoard = ({b, theme}: {b: Board, theme: THEME}) => {
+  return b.render(theme)
 }
 
 const GameWindow = () => {
   const [board, setBoard] = useState(new Board())
-  useEffect(() => setBoard(board.newTile()), []);
+  const [theme, setTheme] = useState(THEME.Classic)
+
+  useEffect(() => {
+    setBoard(board.newTile());
+  }, []);
+
+  const refPassthrough = (el : HTMLElement | null) => {
+    handlers.ref(el);
+    if(el){
+      el.focus();
+    }
+  }
+
+  const handlers = useSwipeable({
+    onSwiped: (eventData : SwipeEventData) => setBoard(board.handleSwipe(eventData)),
+  });
+
   return(
     <div className="GameWindow"
-      onKeyDown={(event) => setBoard(board.handleInput(event))}
+      onKeyDown={(event) => setBoard(board.handleKeypress(event))}
       tabIndex={0}
+      style={{outline: 'none'}}
+      {... handlers}
+      ref={refPassthrough}
     >
-      <RenderBoard b={board}/>
+      <Dropdown>
+        <DropdownButton 
+          title="Theme"
+          onSelect={(e) => setTheme(e == null ? THEME.Classic : e as THEME)}>
+          <Dropdown.Item eventKey="Classic">Classic</Dropdown.Item>
+          <Dropdown.Item eventKey="Amongus">Sussy</Dropdown.Item>
+        </DropdownButton>
+      </Dropdown>
+      <RenderBoard b={board} theme={theme}/>
     </div>
   );
 }

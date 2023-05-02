@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Navigation from './components/navigation'
 import Home from './pages/Home'
-import GameWindow from './pages/projects/2048';
+import GameWindow from './pages/projects/2048/2048';
 
 var pages : { [page: string] : () => React.ReactElement } = {}
 pages["/"] = () => <Home/>
