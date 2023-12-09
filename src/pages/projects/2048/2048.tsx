@@ -19,6 +19,7 @@ enum DIRECTION {
 export enum THEME {
   Classic = "Classic",
   Amongus = "Amongus",
+  Zipper = "Zipper"
 }
 
 class Tile {
@@ -74,7 +75,6 @@ class Board {
   }
 
   setTile(x : number, y : number, tile : Tile) : void {
-    //alert("Set tile at " + x.toString() + " " + y.toString() + " to value " + value.toString())
     if(this.outOfBounds(x, y)){
       alert("Requested out of bounds move");
       return
@@ -241,8 +241,6 @@ class Board {
   }
 
   canMove(x : number, y : number, newX : number, newY : number) : boolean {
-    //console.log(x, y, newX, newY)
-    //alert(this.outOfBounds(x, y).toString() + " : " + this.outOfBounds(newX, newY).toString())
     return this.oneAway(x, y, newX, newY) &&
            !this.outOfBounds(newX, newY) &&
            this.getTile(x, y).val !== 0 &&
@@ -304,7 +302,7 @@ const RenderBoard = ({b, theme}: {b: Board, theme: THEME}) => {
   return b.render(theme)
 }
 
-const GameWindow = () => {
+const Game2048 = () => {
   const [board, setBoard] = useState(new Board())
   const [theme, setTheme] = useState(THEME.Classic)
 
@@ -348,8 +346,7 @@ const GameWindow = () => {
   return(
     <body style={{overflow: 'hidden', overscrollBehavior: 'contain',
      display: "flex", alignItems: "center", justifyContent: "center",
-     height: "100%"}}>
-
+     height: "100%", flexDirection: 'column', touchAction: 'none'}}>
       <div className="GameWindow"
           onKeyDown={(event) => setBoard(board.handleKeypress(event))}
           tabIndex={0}
@@ -370,6 +367,7 @@ const GameWindow = () => {
               onSelect={(e) => setTheme(e == null ? THEME.Classic : e as THEME)}>
               <Dropdown.Item eventKey="Classic">Classic</Dropdown.Item>
               <Dropdown.Item eventKey="Amongus">Sussy</Dropdown.Item>
+              <Dropdown.Item eventKey="Zipper">Zipper</Dropdown.Item>
             </DropdownButton>
           </Dropdown>
         </div>
@@ -381,5 +379,5 @@ const GameWindow = () => {
   );
 }
 
-export default GameWindow
+export default Game2048
 

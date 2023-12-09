@@ -4,8 +4,8 @@ import Navbar from 'react-bootstrap/Navbar';
 
 function topBar(){
   return(
-    <Navbar bg="light" expand="lg">
-      <Container>
+    <Navbar bg="light" expand="sm" className="navbar-expand">
+      <Container fluid>
         <Navbar.Brand href="/">Theo Donacik</Navbar.Brand>
         <Nav className="me-auto">
           <Nav.Link href="/projects">Projects</Nav.Link>

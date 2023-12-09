@@ -35,12 +35,36 @@ export function themed_style(theme : THEME, val : number) : any {
     t.paddingTop = '40px'
     t.margin = '3px'
 
-    t.backgroundImage = 'url("/img/' + images[val] + '")'
+    t.backgroundImage = 'url("/img/amongus/' + images[val] + '")'
   }  
+
+  var zipper = (t : {[key : string] : string}, val : number) => {
+    var images : {[key : number] : string} = {
+      0: "", 2: "z1.jpg", 4: "z8.jpg",
+      8: "z3.jpg", 16: "z4.jpg", 32: "z5.jpg",
+      64: "z6.jpg", 128: "z12.jpg", 256: "z2.jpg",
+      512: "z9.jpg", 1024: "z10.jpg", 2048: "z11.jpg"}
+
+    t.backgroundPosition = 'center'
+    t.backgroundSize = 'cover'
+    t.backgroundColor = 'rgb(204, 192, 179)'
+    t.backgroundRepeat = 'no-repeat'
+
+    t.flex = "1"
+    t.justifyContent = 'flex-end'
+    t.alignItems = 'flex-start'
+    t.textAlignVertical = 'bottom'
+    t.paddingTop = '40px'
+    t.margin = '3px'
+
+    t.backgroundImage = 'url("/img/zipper/' + images[val] + '")'
+  }  
+
 
   const themes : {[key : string] : Function} = {
     Classic: classic,
-    Amongus: amongus
+    Amongus: amongus,
+    Zipper: zipper
   }
 
   var ret : {[key : string] : string} = {
@@ -65,7 +89,7 @@ export function themed_text(theme : THEME) : any{
     text.alignItems = 'center'
   }
 
-  else if (theme == THEME.Amongus) {
+  else if (theme == THEME.Amongus || theme == THEME.Zipper) {
     text.fontSize = '25px'
     text.color = 'white'
     text.paddingRight = '5px'
@@ -89,7 +113,8 @@ export const ROW_STYLE: any = {
 export const GAME_STYLE: any = {
   outline: 'none', overscrollBehaviorY: 'contain',
   overflow: 'hidden', overflowY: 'hidden', overscrollBehavior: 'contain',
-  display: 'flex', flexDirection: 'column'
+  display: 'flex', flexDirection: 'column', alignItems: "center",
+  justifyContent: "center", height: '70vh'
 }
 
 export const STATS_STYLE: any = {

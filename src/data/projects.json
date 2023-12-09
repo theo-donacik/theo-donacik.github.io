@@ -1,0 +1,18 @@
+[
+  {
+    "id": "2048",
+    "name": "2048",
+    "shortDescription": "A game of 2048 made in TypeScript",
+    "fullDescription": "This simple game of 2048 replicates the original game's mechanics and includes multiple themes on top of the base game. This game served as a project to help get me familiar with TypeScript, implementing elements of object oriented design to represent the game board and more functional use effect hooks which are common in React-based web projects. The game uses browser local storage to keep a copy of the game state which is restored when the game loads to save a user's game from their last session.",
+    "demoLink": "/projects/2048game",
+    "tileImage": "/img/projectImg/2048Tile.png",
+    "carouselImages": []
+  },
+  {
+    "id": "test",
+    "name": "test",
+    "shortDescription": "test",
+    "fullDescription": "test",
+    "tileImage": "/img/projectImg/testTile.png"
+  }
+]
