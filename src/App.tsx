@@ -2,19 +2,21 @@ import React from 'react';
 import './App.css';
 import Navigation from './components/navigation'
 import Home from './pages/Home'
-import GameWindow from './pages/projects/2048/2048';
 import ProjectSelect from './pages/ProjectSelect';
 import Game2048 from './pages/projects/2048/2048';
 import ProjectPage from './components/ProjectPage';
+import Resume from './pages/Resume';
 import { PROJECTS } from './util/common';
 import { Project } from './util/types';
+import { BODY } from "./data/style"
 
 const projects: Project[] = PROJECTS as Project[]
 
 var pages : { [page: string] : () => React.ReactElement } = {
   "/": () => <Home/>,
   "/projects": () => <ProjectSelect/>,
-  "/projects/2048game": () => <Game2048/>
+  "/projects/2048game": () => <Game2048/>,
+  "/resume": () => <Resume/>
 }
 
 projects.forEach((project) => {
@@ -35,7 +37,7 @@ function getPage() {
 
 function App() {
   return (
-    <body>
+    <body style={BODY}>
       <div className='App'>
         <Navigation/>
         {getPage()}

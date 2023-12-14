@@ -1,14 +1,37 @@
-import { Card, Nav } from "react-bootstrap";
+import { Card, Carousel, Nav, Image } from "react-bootstrap";
 import { Project } from "../util/types";
-import { TITLE, BODY } from "../data/style"
+import { CAROUSEL_IMAGE, PAGE_TITLE, PAGE_BODY, TILE_IMAGE } from "../data/style"
 
 function ProjectPage(props : {project: Project}){
   return (
-  <div className={props.project.id} style={{textAlign:'left'}}>
-    <p style={TITLE}>
+  <div>
+    <p style={PAGE_TITLE}>
       {props.project.name}
     </p>
-    <p style={BODY}>
+    <div>
+    {
+      props.project.demoLink ? 
+        <Nav.Link href={props.project.demoLink}>
+          <p style={PAGE_BODY}>
+            Try it out!
+          </p>
+        </Nav.Link>
+        :
+        <></>
+    }
+    </div>
+    <Carousel variant="dark" interval={null}>
+      {
+          props.project.carouselImages.map((img : string) => {
+            return (
+              <Carousel.Item>
+                <img style={CAROUSEL_IMAGE} src={img} height="400"/>
+              </Carousel.Item>
+            )
+          })
+      }
+    </Carousel>
+    <p style={PAGE_BODY}>
       {props.project.fullDescription}
     </p>
   </div>

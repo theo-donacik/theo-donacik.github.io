@@ -2,17 +2,29 @@
   {
     "id": "2048",
     "name": "2048",
+    "date": "March 2023",
     "shortDescription": "A game of 2048 made in TypeScript",
-    "fullDescription": "This simple game of 2048 replicates the original game's mechanics and includes multiple themes on top of the base game. This game served as a project to help get me familiar with TypeScript, implementing elements of object oriented design to represent the game board and more functional use effect hooks which are common in React-based web projects. The game uses browser local storage to keep a copy of the game state which is restored when the game loads to save a user's game from their last session.",
+    "fullDescription": "This simple game of 2048 replicates the original game's mechanics and includes multiple themes on top of the base game. This game served as a project to help get me familiar with TypeScript, implementing elements of object oriented design to represent the game board and more functional use effect hooks which are common in React-based web projects. The game uses browser local storage to keep a copy of the game state which is restored when the game loads to save a user's game from their last session. Featuring my partner's cat!",
     "demoLink": "/projects/2048game",
     "tileImage": "/img/projectImg/2048Tile.png",
-    "carouselImages": []
+    "carouselImages": ["/img/projectImg/2048Car1.png", "/img/projectImg/2048Car2.png", "/img/projectImg/2048Car3.png"]
   },
   {
-    "id": "test",
-    "name": "test",
-    "shortDescription": "test",
-    "fullDescription": "test",
-    "tileImage": "/img/projectImg/testTile.png"
+    "id": "shell",
+    "name": "Shell in C",
+    "date": "February 2023",
+    "shortDescription": "A shell program which tokenizes and executes user input",
+    "fullDescription": "This is a shell program written in C for my computer systems class. It reads and tokenizes user input and runs it on the system using exec. It supports scripting, sequencing, input and output redirection, and recalling previous commands. Dealing with memory management on this project and the course in general was my biggest challenge, but working on this project has given me a much better idea of how to think about C memory management. The shell is an essential part of a computer system, and one that I interact with regularly, so it was very interesting to learn how these programs interpret text input, and also helped me understand the nuances of input redirection that were previously unknown to me. I find low level programs such as this one to be quite elegant. They require extreme delicacy and deliberate thought, at the end feeling like I've put together a complex puzzle, even if it produces an already familiar image.",
+    "tileImage": "/img/projectImg/ShellTile.png",
+    "carouselImages": ["/img/projectImg/ShellCar1.png", "/img/projectImg/ShellCar2.png", "/img/projectImg/ShellCar3.png", "/img/projectImg/ShellCar4.png"]
+  },
+  {
+    "id": "trophy",
+    "name": "Wingspan Trophy App",
+    "date": "August 2021",
+    "shortDescription": "A scorekeeping mobile app",
+    "fullDescription": "I love board games, and out of all of them, Wingspan is my favorite. My whole family is quite hooked, to the point of purchasing a trophy we pass around to the winner of our frequent games. With my sister and I away for college I wanted a way to keep track of this trophy won during our digital matches, so I created a mobile app to keep a score record. The app has 2 major components, the frontend created in React Native, and the backend hosted on my personal Raspberry Pi web server. The frontend app displays the current trophy holder and can be used to insert scores and recall past scores. I then packaged it as both an Android and IOS app and distributed it to members of my family. The backend was hosted on a Raspberry Pi acting as a LAMP (Linux, Apache, MySQL, PHP) server, port forwarded to the internet with a free hostname and served PHP API endpoints for inserting and retrieving records into a MySQL database. The backend hasn't survived several reimages of the Pi, but its spirit lives on in future projects where I use similar PHP endpoints for interacting with other applications on the server.",
+    "tileImage": "/img/projectImg/TrophyTile.png",
+    "carouselImages": ["/img/projectImg/TrophyCar1.jpg", "/img/projectImg/TrophyCar2.jpg", "/img/projectImg/TrophyCar3.jpg"]
   }
 ]
