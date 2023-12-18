@@ -37,7 +37,7 @@ function Home(){
           <Accordion>
             <Accordion.Item eventKey="0">
               <Accordion.Header>
-                <b>Software Engineer</b> | Wayfair (July 2023 - December 2023)
+                <b>Software Engineer</b>&nbsp;| Wayfair (July 2023 - December 2023)
               </Accordion.Header>
               <Accordion.Body>
                 <p>
@@ -72,7 +72,7 @@ function Home(){
                       and led the direction of a small team based on my research. We used Terraform 
                       to create the databases in Google Cloud Platforms and modified the Kubernetes 
                       configuration to support a new Jira instance. I created a set of Python scripts 
-                      and SQL queries to analyze the database and prepare it for migration which done 
+                      and SQL queries to analyze the database and prepare it for migration which was done 
                       using Striim's Change Data Capture pipeline to ensure minimal downtime
                     </li>
                   </ul>
@@ -81,7 +81,7 @@ function Home(){
             </Accordion.Item>
             <Accordion.Item eventKey="1">
               <Accordion.Header>
-              <b>Computer Technical Assistant</b> | Northeastern MIE Department 
+              <b>Computer Technical Assistant</b>&nbsp;| Northeastern MIE Department 
                   (September 2021 - May 2023)
               </Accordion.Header>
               <Accordion.Body>
@@ -118,7 +118,7 @@ function Home(){
              the design behind the internet. While I have experience creating websites
             (I'm doing it right now!), the infrastructure behind the web is just as
             interesting. I've engaged in projects where I not only create websites but
-            host them and allow them to interact with other services or devices on the 
+            host them and allow them to interact with other services or other devices on the 
             network. I was also able to explore this as a software engineering co-op at
             Wayfair where my main project involved working on some of the company's 
             internal web tools and their data storage infrastructure.

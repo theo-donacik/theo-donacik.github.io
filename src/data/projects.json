@@ -1,5 +1,14 @@
 [
   {
+    "id": "minecraft",
+    "name": "Minecraft Server Control",
+    "date": "June 2023",
+    "shortDescription": "Self-hosted Minecraft server and web control console",
+    "fullDescription": "My friends and I like to play Minecraft together, but that requires an external server. We had been paying for a service to host one for us, but it was expensive, hard to switch versions, and had frequent performance problems. So, equipped with my friend's old PC parts and a Raspberry Pi, I worked to create a self-hosted solution that anyone in our group would be able to use. The server consists of two parts: A high-power former gaming PC, now running Debian 12, which hosts the game server itself, and a Raspberry Pi single board computer which hosts the web app used to control it. Rather than keeping the much more inefficient PC on at all times to serve the web app component, the Pi can stay always on, connected to the PC via USB and uses the RPI's 'gadget mode' to wake the device from a shut down state. Once on, the PC hosts PHP API endpoints that the Pi interacts with to turn different game versions on or off, get stats and console logs from the game server, or shut the PC back down. Hosted on the internet with a free hostname from afraid.org, any of my friends can turn the server on, connect to it via the same hostname on a different port, and turn it off when they're done. Being able to wake the server remotely was the biggest challenge of this project. I originally attempted a Wake on Lan solution, but quickly found that due to a bug in this specific motherboard's firmware, WOL had been disabled in the linux kernel. I moved on to trying to get the RPI to act as a USB keyboard in gadget mode to turn the device on, but this too had been removed from the Pi kernel's DWC2 driver. I eventually found a kernel patch online which reenabled this feature, so after cross compiling the RPI kernel for ARM64 on my main machine, I was able to remotely power on and off the server.",
+    "tileImage": "/img/projectImg/MineTile.png",
+    "carouselImages": ["/img/projectImg/MineCar1.png", "/img/projectImg/MineCar2.png"]
+  },
+  {
     "id": "2048",
     "name": "2048",
     "date": "March 2023",
@@ -19,11 +28,21 @@
     "carouselImages": ["/img/projectImg/ShellCar1.png", "/img/projectImg/ShellCar2.png", "/img/projectImg/ShellCar3.png", "/img/projectImg/ShellCar4.png"]
   },
   {
+    "id": "raft",
+    "name": "RAFT",
+    "date": "December 2022",
+    "demoLink": "https://github.com/theo-donacik/RAFT",
+    "shortDescription": "An implementation of the RAFT consensus protocol",
+    "fullDescription": "This was a project for CS3700 Networks and Distributed Systems, done with my partner Jaron Cui. In this project, our task was to create a basic implementation of the RAFT consensus protocol for distributed data storage. We were given a simulator program which would create data storage nodes running our RAFT software which could communicate with each other. They would then receive data write and read requests and be spontaneously killed, requiring data redundancy and consistency. We read the original RAFT paper (https://raft.github.io/raft.pdf) detailing the mechanism by which distributed nodes would vote to elect a leader which receives all incoming write requests and replicates that data to its followers, ensuring no new data is committed to the ledger unless a consensus has been reached. Our solution had to be resilient to leader and follower crashes and ensure data consistency among the nodes. In the end I feel we created a very elegant implementation which required a deep understanding of the RAFT mechanism, distributed data storage, and democracy.",
+    "tileImage": "/img/projectImg/RaftTile.png",
+    "carouselImages": ["/img/projectImg/RaftCar1.png", "/img/projectImg/RaftCar2.png", "/img/projectImg/RaftCar3.png"]
+  },
+  {
     "id": "trophy",
     "name": "Wingspan Trophy App",
     "date": "August 2021",
     "shortDescription": "A scorekeeping mobile app",
-    "fullDescription": "I love board games, and out of all of them, Wingspan is my favorite. My whole family is quite hooked, to the point of purchasing a trophy we pass around to the winner of our frequent games. With my sister and I away for college I wanted a way to keep track of this trophy won during our digital matches, so I created a mobile app to keep a score record. The app has 2 major components, the frontend created in React Native, and the backend hosted on my personal Raspberry Pi web server. The frontend app displays the current trophy holder and can be used to insert scores and recall past scores. I then packaged it as both an Android and IOS app and distributed it to members of my family. The backend was hosted on a Raspberry Pi acting as a LAMP (Linux, Apache, MySQL, PHP) server, port forwarded to the internet with a free hostname and served PHP API endpoints for inserting and retrieving records into a MySQL database. The backend hasn't survived several reimages of the Pi, but its spirit lives on in future projects where I use similar PHP endpoints for interacting with other applications on the server.",
+    "fullDescription": "I love board games, and out of all of them, Wingspan is my favorite. My whole family is quite hooked, to the point of purchasing a trophy we pass around to the winner of our frequent games. With my sister and I away for college I wanted a way to keep track of this trophy won during our digital matches, so I created a mobile app to keep a score record. The app has 2 major components, the frontend created in React Native, and the backend hosted on my personal Raspberry Pi web server. The frontend app displays the current trophy holder and can be used to insert scores and recall past scores. I packaged it as both an Android and IOS app and distributed it to members of my family. The backend was hosted on a Raspberry Pi acting as a LAMP (Linux, Apache, MySQL, PHP) server, port forwarded to the internet with a free hostname and served PHP API endpoints for inserting and retrieving records into a MySQL database. The backend hasn't survived several reimages of the Pi, but its spirit lives on in future projects where I use similar PHP endpoints for interacting with other applications on the server.",
     "tileImage": "/img/projectImg/TrophyTile.png",
     "carouselImages": ["/img/projectImg/TrophyCar1.jpg", "/img/projectImg/TrophyCar2.jpg", "/img/projectImg/TrophyCar3.jpg"]
   }

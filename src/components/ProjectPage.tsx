@@ -11,11 +11,11 @@ function ProjectPage(props : {project: Project}){
     <div>
     {
       props.project.demoLink ? 
-        <Nav.Link href={props.project.demoLink}>
+        <a href={props.project.demoLink} target="_blank" rel="noopener noreferrer">
           <p style={PAGE_BODY}>
-            Try it out!
+            Check it out!
           </p>
-        </Nav.Link>
+        </a>
         :
         <></>
     }
