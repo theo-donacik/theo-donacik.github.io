@@ -9,6 +9,9 @@ import Resume from './pages/Resume';
 import { PROJECTS } from './util/common';
 import { Project } from './util/types';
 import { BODY } from "./data/style"
+import Blog from './pages/Blog';
+import { posts } from './data/blogPosts/blogPosts';
+import BlogPage from './components/BlogPage';
 
 const projects: Project[] = PROJECTS as Project[]
 
@@ -16,11 +19,16 @@ var pages : { [page: string] : () => React.ReactElement } = {
   "/": () => <Home/>,
   "/projects": () => <ProjectSelect/>,
   "/projects/2048game": () => <Game2048/>,
-  "/resume": () => <Resume/>
+  "/resume": () => <Resume/>,
+  "/blog": () => <Blog/>
 }
 
 projects.forEach((project) => {
   pages["/projects/" + project.id] = () => <ProjectPage project={project}/>
+})
+
+posts.forEach((post) => {
+  pages["/blog/" + post.id] = () => <BlogPage post={post}/>
 })
 
 function getPage() {

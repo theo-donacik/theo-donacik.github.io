@@ -8,3 +8,9 @@ export type Project = {
   tileImage: string,
   carouselImages: string[]
 }
+
+export type Post = {
+  id: string,
+  title: string,
+  content: string
+}
