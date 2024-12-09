@@ -13,7 +13,7 @@ function Home(){
         <Row>
           <Col>
             <p>
-              I'm Theo, a 3rd year student at Northeastern University pursuing a BS
+              I'm Theo, a 4th year student at Northeastern University pursuing a BS
               in Computer Science with a minor in Computer Engineering. I have a lot
               of passion for computing, from consumer electronics to web development 
               to low level programming and operating systems.  
@@ -30,14 +30,53 @@ function Home(){
         </Row>
         <Row xs="auto">
           <p style={SUBHEADDING}>
-            Professional Experience
+            Work Experience
           </p>
         </Row>
         <Row>
           <Accordion>
-            <Accordion.Item eventKey="0">
+          <Accordion.Item eventKey="0">
               <Accordion.Header>
-                <b>Software Engineer</b>&nbsp;| Wayfair (July 2023 - December 2023)
+                <b style={{color: '#1C49C2'}}>Chewy</b>&nbsp;| Software Engineer Co-op (June 2024 - December 2024)
+              </Accordion.Header>
+              <Accordion.Body>
+                <p>
+                  <p style={DESCRIPTION}>
+                    Technologies Utilized: React, Kotlin, Python, Jenkins, Apache Airflow, PostgreSQL, GitHub                  </p>
+                  <ul>
+                    <li>
+                      I worked on Chewy's Rebates team, working on a new platform for managing B2B
+                      rebates. Rebates make up $1.9B of Chewy's overall business, with this new platform
+                      saving on both licensing cost over the existing 3rd party solution and by ensuring
+                      all deals with vendors are fully applied to orders. 
+                    </li>
+                    <li>
+                      I worked on the platform's React frontend, Kotlin API with Spring, 
+                      Apache Airflow for automation in the data platform, and a PostgreSQL
+                      database. I worked on several UI and API features and bugfixes, addressing planned enhancements 
+                      as well as bugs reported by users. I also worked in the Airflow platform, 
+                      fixing bugs in data processing jobs and addressing quality issues in the database.
+                    </li>
+                    <li>
+                      To help address potential data quality issues in the database, I designed 
+                      and implemented an Airfow job for detecting these issues and sending notifications
+                      to the team through Slack. Several alerts were implemented in production and
+                      developers were able to identify and address several data issues. 
+                      By notifying the team of these issues, more deals can be properly applied 
+                      to products and accounting of accruals can be made more accurate.
+                    </li>
+                    <li>
+                      I was able to learn about all parts of the software development stack
+                      and aid my team with meaningful contributions to feature set and 
+                      accuracy of the platform.
+                    </li>
+                  </ul>
+                </p>
+              </Accordion.Body>
+            </Accordion.Item>
+            <Accordion.Item eventKey="1">
+              <Accordion.Header>
+                <b style={{color: '#7F187F'}}>Wayfair</b>&nbsp;| Software Engineer Co-op (July 2023 - December 2023)
               </Accordion.Header>
               <Accordion.Body>
                 <p>
@@ -79,17 +118,15 @@ function Home(){
                 </p>
               </Accordion.Body>
             </Accordion.Item>
-            <Accordion.Item eventKey="1">
+            <Accordion.Item eventKey="2">
               <Accordion.Header>
-              <b>Computer Technical Assistant</b>&nbsp;| Northeastern MIE Department 
-                  (September 2021 - May 2023)
+                <b style={{color: '#C8102E'}}>Northeastern MIE</b>&nbsp;| Technical Assistant (September 2021 - May 2023)
               </Accordion.Header>
               <Accordion.Body>
                 <p>
                   <ul>
                     <li>
-                      I maintained this work study job during each semester I was attending classes 
-                      at Northeastern
+                      I maintained this work-study job while attending classes at Northeastern
                     </li>
                     <li>
                       I repaired computers within the Mechanical Engineering department, diagnosing, 
