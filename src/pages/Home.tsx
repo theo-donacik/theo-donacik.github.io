@@ -1,5 +1,5 @@
 import React from 'react';
-import {Accordion, Badge, Col, Container, Image, Nav, Row, Stack} from 'react-bootstrap';
+import {Accordion, Badge, Col, Container, Image, Row, Stack} from 'react-bootstrap';
 import { DESCRIPTION, PAGE_BODY, PAGE_TITLE, SUBHEADDING } from '../data/style';
 
 function Home(){
@@ -13,10 +13,11 @@ function Home(){
         <Row>
           <Col>
             <p>
-              I'm Theo, a 4th year student at Northeastern University pursuing a BS
-              in Computer Science with a minor in Computer Engineering. I have a lot
-              of passion for computing, from consumer electronics to web development 
-              to low level programming and operating systems.  
+              I'm Theo! I graduated from Northeastern University with a BS in Computer Science
+              and a minor in Computer Engineering. I am currently a student at Northeastern University 
+              pursuing an MS in Computer Science, graduating May 2026. I have a lot
+              of passion for computing, from consumer electronics to web development to low level 
+              programming and operating systems.  
             </p>
           </Col>
         </Row>
@@ -35,6 +36,47 @@ function Home(){
         </Row>
         <Row>
           <Accordion>
+          <Accordion.Item eventKey="3">
+            <Accordion.Header>
+              <b style={{color: '#1C49C2'}}>Chewy</b>&nbsp;| Software Engineer Intern (June 2025 - August 2025)
+            </Accordion.Header>
+            <Accordion.Body>
+              <p>
+                <p style={DESCRIPTION}>
+                  Technologies Utilized: React, Java, Spring, PostgreSQL, GitHub
+                </p>
+                <ul>
+                  <li>
+                    Returning to Chewy this time for a 10-week intern program, I worked on the 
+                    B2B Ordering team. This team created and manages the web platform for 
+                    veterinary practices to order medication from Chewy and 3rd-party vendors.
+                  </li>
+                  <li>
+                    I worked primarily in the site's two Java Spring backends. One providing the 
+                    API for the frontend, the other being a more general API for managing product and
+                    vendor information from the database and other data sources. I joined the team's 
+                    agile sprint process and quickly began taking on some cleanup and refactoring tasks,
+                    before moving on to some new feature additions and higher priority bugfixes. 
+                  </li>
+                  <li>
+                    My primary project was working with item restrictions. For legal compliance reasons,
+                    the sale of some medications needed to be restricted depending on the seller, the 
+                    state of the transaction, etc. I overhauled the data representation of item restrictions
+                    in the backend, allowing the frontend to more easily tell why an item was restricted and allowing
+                    easy addition of new restriction types, which I worked on next. I added a new restriction type 
+                    all the way from its database table representation, CRUD API for that table, and integration
+                    with my new item restriction type and logic for informing the frontend an item was restricted.
+                  </li>
+                  <li>
+                    On my second go-around at Chewy, I felt more confident in my ability to make a meaningful impact 
+                    on my team and the company. I acclimated quickly to the new team environment and contributed
+                    significantly to the project. I learned a lot by focusing on backend development and explored one
+                    aspect of software engineering in more depth. 
+                  </li>
+                </ul>
+              </p>
+            </Accordion.Body>
+          </Accordion.Item>
           <Accordion.Item eventKey="0">
               <Accordion.Header>
                 <b style={{color: '#1C49C2'}}>Chewy</b>&nbsp;| Software Engineer Co-op (June 2024 - December 2024)
